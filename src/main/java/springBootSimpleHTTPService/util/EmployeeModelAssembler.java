@@ -37,7 +37,7 @@ public class EmployeeModelAssembler implements RepresentationModelAssembler<Empl
     @Autowired
     private EmployeeModelMapperConvert employeeModelMapperConvert;
 
-    private String jsonValue = "{\"firstName\":\"value1\", \"lastName\":\"value2\", \"role\": {\"id\": [1-11]}}";
+    private String jsonSchema = "{\"firstName\":\"value1\", \"lastName\":\"value2\", \"role\": {\"id\": [1-11]}}";
 
     /**
      * Metodo abstracto de la interfaz RepresentationModelAssembler
@@ -52,15 +52,14 @@ public class EmployeeModelAssembler implements RepresentationModelAssembler<Empl
 
         EmployeeDto employeeDto = employeeModelMapperConvert.convertToDto(employee);
 
-
         return EntityModel.of(employeeDto,
                 WebMvcLinkBuilder.linkTo(methodOn(EmployeeController.class).oneEmployee(employee.getId())).withSelfRel(),
                 linkTo(methodOn(EmployeeController.class).allEmployees()).withRel("all"),
                 linkTo(methodOn(EmployeeController.class).newEmployee(employee)).withRel(
-                "curl -X POST -d '"+ jsonValue + "'" +
+                "curl -X POST -d '"+ jsonSchema + "'" +
                         " -H \"Content-Type: application/json\" "),
                 linkTo(methodOn(EmployeeController.class).updateEmployee(employee, employee.getId())).withRel(
-                        "curl -X PUT -d '"+ jsonValue + "'" +
+                        "curl -X PUT -d '"+ jsonSchema + "'" +
                                 " -H \"Content-Type: application/json\" "),
                 linkTo(methodOn(EmployeeController.class).deleteEmployee(employee.getId())).withRel("delete"),
                 linkTo(methodOn(EmployeeController.class).findEmployeesByRoleId(employee.getRole().getId())).withRel("getByRoleId [1-11]"),
@@ -70,11 +69,11 @@ public class EmployeeModelAssembler implements RepresentationModelAssembler<Empl
 
     }
 
-    public String getJsonValue() {
-        return jsonValue;
+    public String getJsonSchema() {
+        return jsonSchema;
     }
 
-    public void setJsonValue(String jsonValue) {
-        this.jsonValue = jsonValue;
+    public void setJsonSchema(String jsonSchema) {
+        this.jsonSchema = jsonSchema;
     }
 }

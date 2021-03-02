@@ -44,6 +44,8 @@ public class RoleController {
                 CollectionModel.of(roles,
                         linkTo(methodOn(RoleController.class).allRoles()).withSelfRel());
 
+        System.out.println("ALL Roles");
+
         return ResponseEntity
                 .created(collectionModel.getRequiredLink(IanaLinkRelations.SELF).toUri())
                 .body(collectionModel);

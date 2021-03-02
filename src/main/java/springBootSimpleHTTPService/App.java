@@ -11,6 +11,8 @@ public class App {
 	}
 
 
+
+
 	/*@Bean
 	public ApplicationRunner initializer(MarvelCharacterRepository repository) {
 		return args -> repository.saveAll(Arrays.asList(

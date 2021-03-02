@@ -1,29 +1,32 @@
 package springBootSimpleHTTPService.configuration;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import java.util.TimeZone;
-
 @ComponentScan(basePackages = {"springBootSimpleHTTPService"})
 @Configuration
-@EnableWebMvc
+//@EnableWebMvc
 public class WebMVCConfiguration implements WebMvcConfigurer {
+//public class WebMVCConfiguration extends DelegatingWebMvcConfiguration {
+
+
+   @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        System.out.println("!!!! OK : addResourceHandlers !!!!!!");
+        registry.addResourceHandler("/resources/**")
+                .addResourceLocations("/resources/");
+    }
+
 
     @Override
-    public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/**").addResourceLocations("classpath:/META-INF/resources/");
+    public void addCorsMappings(CorsRegistry registry) {
+        System.out.println("!!!! OK : addCorsMappings !!!!!!");
+        registry.addMapping("/**").allowedOrigins("http://localhost:8181");
     }
 
-    @Bean
-    public ObjectMapper objectMapper() {
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.setTimeZone(TimeZone.getDefault());
-        return mapper;
-    }
+
+
 }

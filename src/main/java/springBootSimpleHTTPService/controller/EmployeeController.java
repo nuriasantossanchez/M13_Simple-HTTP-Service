@@ -82,10 +82,8 @@ public class EmployeeController {
     public ResponseEntity<?> newEmployee(@Valid @RequestBody Employee newEmployee) {
 
         if (null != newEmployee.getRole().getId()) {
-            Optional<Role> role = Optional.ofNullable(iRoleService.findRoleById(newEmployee.getRole().getId())
-                    .orElseThrow(() -> new RoleNotFoundException(newEmployee.getRole().getId())));
 
-            newEmployee.setRole(role.get());
+            newEmployee.setRole(iRoleService.findRoleById(newEmployee.getRole().getId()).get());
 
             EntityModel<EmployeeDto> entityModel = employeeModelAssembler.toModel(iEmployeeService.saveEmployee(newEmployee));
 
@@ -101,7 +99,7 @@ public class EmployeeController {
                 .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
                 .body(Problem.create()
                         .withTitle("Bad Request. Please provide a valid JSON value")
-                        .withDetail(employeeModelAssembler.getJsonValue()));
+                        .withDetail(employeeModelAssembler.getJsonSchema()));
 
     }
 
@@ -114,9 +112,7 @@ public class EmployeeController {
                     .map(employee -> {
                         employee.setFirstName(newEmployee.getFirstName());
                         employee.setLastName(newEmployee.getLastName());
-                        Optional<Role> role = Optional.ofNullable(iRoleService.findRoleById(newEmployee.getRole().getId())
-                                .orElseThrow(() -> new RoleNotFoundException(newEmployee.getRole().getId())));
-                        employee.setRole(role.get());
+                        employee.setRole(iRoleService.findRoleById(newEmployee.getRole().getId()).get());
                         return iEmployeeService.saveEmployee(employee);
                     })
                     .orElseGet(() -> {
@@ -138,14 +134,12 @@ public class EmployeeController {
                 .header(HttpHeaders.CONTENT_TYPE, MediaTypes.HTTP_PROBLEM_DETAILS_JSON_VALUE)
                 .body(Problem.create()
                         .withTitle("Bad Request. Please provide a valid JSON value")
-                        .withDetail(employeeModelAssembler.getJsonValue()));
+                        .withDetail(employeeModelAssembler.getJsonSchema()));
 
     }
 
     @DeleteMapping("/employees/{id}")
     public ResponseEntity<?> deleteEmployee(@PathVariable(name="id")Long id) {
-
-        //Optional<Employee> deletedEmployee= iEmployeeService.findEmployeeById(id);
 
         Employee deletedEmployee = iEmployeeService.findEmployeeById(id)
                 .orElseThrow(() -> new EmployeeNotFoundException(id));
@@ -177,8 +171,6 @@ public class EmployeeController {
 
     @GetMapping("/employees/role/{job}")
     public ResponseEntity<?> findEmployeesByRolePathVariable(@PathVariable(name="job") String jobTitle) {
-
-        iRoleService.findRoleByJobTitle(jobTitle);
 
         Optional<Role> role = iRoleService.findRoleByJobTitle(jobTitle);
 
