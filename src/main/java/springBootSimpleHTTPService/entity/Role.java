@@ -4,6 +4,14 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
+/**
+ * Clase de la capa de dominio.
+ *
+ * La anotacion @Entity indica que la clase es una entidad.
+ *
+ * La anotacion @Table indica que la clase sera mapeada a una tabla y persistida, en este caso,
+ * a una base de datos embebida de tipo H2.
+ */
 @Entity
 @Table(name="role") //en caso que la tabla sea diferente
 public class Role implements Serializable {
@@ -18,11 +26,6 @@ public class Role implements Serializable {
     @Column(name = "annualsalary")
     private BigDecimal annualSalary;
 
-  /* @OneToMany(fetch = FetchType.LAZY, mappedBy = "role")
-   private List<Employee> employees;
-
-   */
-
     public Role() {
     }
 
@@ -31,16 +34,6 @@ public class Role implements Serializable {
         this.jobEnum = jobEnum;
         this.annualSalary = annualSalary;
     }
-
-    /*
-    public Role(Long id, JobEnum jobEnum, List<Employee> employees) {
-        this.id = id;
-        this.jobEnum = jobEnum;
-        this.annualSalary = jobEnum.getDollars();
-        this.employees = employees;
-    }
-
-     */
 
     public Long getId() {
         return id;

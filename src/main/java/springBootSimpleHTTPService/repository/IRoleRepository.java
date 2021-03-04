@@ -8,6 +8,10 @@ import springBootSimpleHTTPService.entity.Role;
 
 import java.util.Optional;
 
+/**
+ * Interface de la capa Repository, extiende JpaRepository
+ *
+ */
 @Repository
 @Transactional
 public interface IRoleRepository extends JpaRepository<Role, Long> {

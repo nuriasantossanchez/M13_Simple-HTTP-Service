@@ -7,6 +7,10 @@ import springBootSimpleHTTPService.entity.Employee;
 
 import java.util.List;
 
+/**
+ * Interface de la capa Repository, extiende JpaRepository
+ *
+ */
 @Repository
 @Transactional
 public interface IEmployeeRepository extends JpaRepository<Employee, Long> {

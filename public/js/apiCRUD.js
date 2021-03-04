@@ -8,7 +8,7 @@ function getAllEmployees() {
             var tableBody = $('.tblEmployee tbody');
             tableBody.empty();
             $(data._embedded.employeeDtoList).each(function (index, element) {
-               loadTableEmployee(tableBody,element);
+               loadEmployeesTable(tableBody,element);
             });
         },
         error: function (error) {
@@ -24,11 +24,11 @@ function getRoles() {
         dataType: 'json',
         data: {_embedded:{ roleDtoList: Array()}},
         success: function (data) {
-            var selectOption = $('#employee-role');
-            var selectOptionFind = $('#employee-role-find');
+            var optionSelect = $('#employee-role');
+            var optionSelectFind = $('#employee-role-find');
             $(data._embedded.roleDtoList).each(function (index, element) {
-                loadSelectRole(selectOption,element);
-                loadSelectRole(selectOptionFind,element);
+                loadRoleSelect(optionSelect,element);
+                loadRoleSelect(optionSelectFind,element);
             });
         },
         error: function (error) {
@@ -45,13 +45,12 @@ function getEmployeeById(id) {
         success: function (data) {
             var tableBody = $('.tblEmployee tbody');
             tableBody.empty();
-            loadTableEmployee(tableBody,data);
+            loadEmployeesTable(tableBody,data);
 
         },
         error: function (error) {
             var message=errorHandler(error);
             showMessage(message, 'danger');
-
             console.log("Fail: ", error);
         }
     });
@@ -68,7 +67,7 @@ function getEmployeesByRoleId(role) {
                 var tableBody = $('.tblEmployee tbody');
                 tableBody.empty();
                 $(data._embedded.employeeDtoList).each(function (index, element) {
-                    loadTableEmployee(tableBody, element);
+                    loadEmployeesTable(tableBody, element);
                 });
              } else {
                 var message=errorHandler('There is no employees employees with Role ID ' + role);
@@ -78,7 +77,6 @@ function getEmployeesByRoleId(role) {
         error: function (error) {
             var message=errorHandler(error);
             showMessage(message, 'danger');
-
             console.log("Fail: ", error);
         }
     });
@@ -95,7 +93,7 @@ function getEmployeesByRoleTittle(role) {
                 var tableBody = $('.tblEmployee tbody');
                 tableBody.empty();
                 $(data._embedded.employeeDtoList).each(function (index, element) {
-                    loadTableEmployee(tableBody, element);
+                    loadEmployeesTable(tableBody, element);
                 });
             }else{
                 var message=errorHandler('There is no employees with Role Tittle "' +role + '"');
@@ -105,7 +103,6 @@ function getEmployeesByRoleTittle(role) {
         error: function (error) {
             var message=errorHandler(error);
             showMessage(message, 'danger');
-
             console.log("Fail: ", error);
         }
     });
@@ -121,10 +118,9 @@ function addEmployee(dynamicURL,methodName,employee){
         success: function (data) {
             var message='Employee with id '+ data.id + ' saved successfully';
             showMessage(message, 'success');
-
+            resetForm();
+            resetEmployeeRoleSelect();
             getAllEmployees();
-            resetAddEmployeeForm();
-
         },
         error: function (error) {
             var message=errorHandler('Fill in all search fields, please');
@@ -139,11 +135,7 @@ function updateEmployee(id){
         method: 'GET',
         dataType: 'json',
         success: function (data) {
-            $('.employee-id').val(data.id);
-            $('.employee-firstName').val(data.firstName);
-            $('.employee-lastName').val(data.lastName);
-            $('#employee-role').find('option').removeAttr('selected');
-            $('#employee-role').find('option:contains('+data.jobTitle+')').attr('selected',true);
+            setEmployeeForm(data);
         },
         error: function (error) {
             showMessage(error, 'danger');
@@ -158,8 +150,10 @@ function deleteEmployee(id){
               method: 'DELETE',
               success: function () {
                   var message='Employee with id '+ id + ' has been deleted';
-                  getAllEmployees();
                   showMessage(message, 'success');
+                  resetForm();
+                  resetEmployeeRoleSelect();
+                  getAllEmployees();
               },
               error: function (error) {
                   showMessage(error, 'danger');
@@ -168,8 +162,7 @@ function deleteEmployee(id){
     }
 }
 
-
-function loadTableEmployee(tableBody, employee){
+function loadEmployeesTable(tableBody, employee){
     tableBody.append('<tr><td>'+employee.id+'</td><td>'+employee.firstName+'</td>'
         + '<td>'+employee.lastName+'</td><td>'+employee.jobTitle+'</td><td>'+employee.annualSalary+'</td>'
         + '<td><button class="btn btn-link text-success" onclick = "updateEmployee('+employee.id+')">Update</button> | '
@@ -177,11 +170,15 @@ function loadTableEmployee(tableBody, employee){
 
 }
 
-function loadSelectRole (select, role){
+function loadRoleSelect (select, role){
     select.append($('<option>').val(role.id).text(role.jobTitle));
 }
 
-function resetAddEmployeeForm (){
-    document.getElementById('employee-form').reset();
+function setEmployeeForm(employee){
+    $('.employee-id').val(employee.id);
+    $('.employee-firstName').val(employee.firstName);
+    $('.employee-lastName').val(employee.lastName);
+    $('#employee-role').find('option').removeAttr('selected');
+    $('#employee-role').find('option:contains('+employee.jobTitle+')').attr('selected',true);
 }
 

@@ -2,6 +2,15 @@ package springBootSimpleHTTPService.entity;
 
 import java.math.BigDecimal;
 
+/**
+ * Tipo Enum de la capa de dominio.
+ *
+ * Define los empleos disponibles en el sistema que son fijos
+ * Cada elemento del Enum esta formado por los campos:
+ * 'jobTitle', String para indicar el nombre del empleo
+ * 'dollars', BigDecimal para indicar el salario que corresponde a cada empleo
+ *
+ */
 public enum JobEnum {
 
     Software_Engineer("Software Engineer", BigDecimal.valueOf(45000)),

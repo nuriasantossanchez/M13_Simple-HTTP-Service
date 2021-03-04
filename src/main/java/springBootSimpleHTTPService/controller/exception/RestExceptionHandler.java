@@ -14,6 +14,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Clase de la capa Controller, dentro del paquete Exception
+ *
+ * Clase base conveniente para las clases @ControllerAdvice que desean proporcionar un manejo de
+ * excepciones centralizado en todos los metodos @RequestMapping a traves de los metodos @ExceptionHandler.
+ *
+ * Esta clase base proporciona un metodo @ExceptionHandler para manejar las excepciones internas de Spring MVC.
+ * Este metodo devuelve ResponseEntity para escribir en la respuesta con un conversor de mensajes.
+ *
+ * Lanza una excepción cuando falla la validacion de un argumento anotado con @Valid
+ *
+ */
 @ControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 

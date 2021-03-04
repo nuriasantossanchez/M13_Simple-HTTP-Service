@@ -14,6 +14,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /**
  * Clase de la capa Controller
+ *
  * Implemente la interfaz RepresentationModelAssembler
  * (pertenece al modulo de Spring HATEOAS, org.springframework.hateoas.server)
  *
@@ -41,11 +42,11 @@ public class EmployeeModelAssembler implements RepresentationModelAssembler<Empl
 
     /**
      * Metodo abstracto de la interfaz RepresentationModelAssembler
-     * Convierte un objeto de tipo GreetingResponseDto en un EntityModel.
+     * Convierte un objeto de tipo Employee en un EntityModel de tipos EmployeeDto.
      * El objeto EntityModel envuelve un objeto de dominio y le agrega enlaces
      *
-     * @param employee, objeto de tipo GreetingResponse
-     * @return objeto de tipo EntityModel que envuelve a un objeto de tipo GreetingResponseDto
+     * @param employee, objeto de tipo Employee
+     * @return objeto de tipo EntityModel que envuelve a un objeto de tipo EmployeeDto
      * y le agrega enlaces
      */
     public EntityModel<EmployeeDto> toModel(Employee employee) {
@@ -73,7 +74,4 @@ public class EmployeeModelAssembler implements RepresentationModelAssembler<Empl
         return jsonSchema;
     }
 
-    public void setJsonSchema(String jsonSchema) {
-        this.jsonSchema = jsonSchema;
-    }
 }

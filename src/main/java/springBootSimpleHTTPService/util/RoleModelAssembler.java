@@ -13,6 +13,7 @@ import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /**
  * Clase de la capa Controller
+ *
  * Implemente la interfaz RepresentationModelAssembler
  * (pertenece al modulo de Spring HATEOAS, org.springframework.hateoas.server)
  *
@@ -38,11 +39,11 @@ public class RoleModelAssembler implements RepresentationModelAssembler<Role, En
 
     /**
      * Metodo abstracto de la interfaz RepresentationModelAssembler
-     * Convierte un objeto de tipo GreetingResponseDto en un EntityModel.
+     * Convierte un objeto de tipo Role en un EntityModel de tipos RoleDto.
      * El objeto EntityModel envuelve un objeto de dominio y le agrega enlaces
      *
-     * @param role, objeto de tipo GreetingResponse
-     * @return objeto de tipo EntityModel que envuelve a un objeto de tipo GreetingResponseDto
+     * @param role, objeto de tipo Role
+     * @return objeto de tipo EntityModel que envuelve a un objeto de tipo RoleDto
      * y le agrega enlaces
      */
     public EntityModel<RoleDto> toModel(Role role) {

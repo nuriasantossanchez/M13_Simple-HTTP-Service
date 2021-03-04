@@ -1,13 +1,22 @@
 package springBootSimpleHTTPService.entity;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
+/**
+ * Clase de la capa de dominio.
+ *
+ * La anotacion @Entity indica que la clase es una entidad.
+ *
+ * La anotacion @Table indica que la clase sera mapeada a una tabla y persistida, en este caso,
+ * a una base de datos embebida de tipo H2.
+ *
+ * La anotacion @ManyToOne especifica una asociación de un solo valor a otra clase de entidad
+ * que tiene multiplicidad de muchos a uno, en este caso, la asociacion es con la entidad Role,
+ * donde un Employee tiene un unico Role y un Role puede estar asociado a multiples Employees
+ */
 @Entity
 @Table(name="employee") //en caso que la tabla sea diferente
 public class Employee implements Serializable {

@@ -3,18 +3,13 @@ $(document).ready(function () {
      getRoles();
 
     document.getElementById('employee-form').addEventListener('submit', function(e){
-
         var employee = {};
         var dynamicURL = '';
         var methodName = '';
-
-        employee.firstName = $('.employee-firstName').val();
-        employee.lastName = $('.employee-lastName').val();
-        employee.role = { id : $('#employee-role').val() };
-        var employeeId = $('.employee-id').val();
-        if(employeeId){
+        employee = getEmployee();
+        if(employee.id){
             //update
-            dynamicURL = window.location+'employees/'+employeeId;
+            dynamicURL = window.location+'employees/'+employee.id;
             methodName = 'PUT';
         }else{
             //save
@@ -26,17 +21,13 @@ $(document).ready(function () {
         e.preventDefault();
     });
 
-     document.getElementById('employee-clear-form').addEventListener('reset', function(e){
-        $('.employee-id').val('');
-        $('.employee-firstName').val('');
-        $('.employee-lastName').val('');
-        $('#employee-role').find('option').removeAttr('selected');
-        $('#employee-role').val('');
-        $('#employee-id-find').val('')
-        $('#employee-role-find').find('option').removeAttr('selected');
-        $('#employee-role-find').val('');
-        $('#employee-role-id-find').val('');
+    document.getElementById('employee-all-btn').addEventListener('click', function(e){
+        getAllEmployees();
+        e.preventDefault();
+    });
 
+     document.getElementById('clear-btn').addEventListener('click', function(e){
+        reset();
         e.preventDefault();
      });
 
@@ -56,7 +47,6 @@ $(document).ready(function () {
       if (employeeRoleId != ''){
           var employeeRoleTittle = $('#employee-role-find').find('option:selected').text();
           getEmployeesByRoleTittle(employeeRoleTittle);
-
       }
       else{
           var message=errorHandler('Fill in a Role Title, please');
@@ -67,7 +57,7 @@ $(document).ready(function () {
 
     document.getElementById('employee-role-id-find-btn').addEventListener('click', function(e){
       var employeeRoleId = $('#employee-role-id-find').val();
-      if (employeeRoleId != '' && employeeRoleId > 0 && employeeRoleId <= 11){
+      if (employeeRoleId.trim() != '' && employeeRoleId > 0 && employeeRoleId <= 11){
           getEmployeesByRoleId(employeeRoleId);
       }
       else{
@@ -76,12 +66,6 @@ $(document).ready(function () {
           showMessage(message, 'danger');
       }
        e.preventDefault();
-    });
-
-    document.getElementById('employee-all-btn').addEventListener('click', function(e){
-
-        getAllEmployees();
-        e.preventDefault();
     });
 
 });
@@ -133,6 +117,36 @@ function errorHandler(error) {
     }, 3000);
 }
 
+function reset(){
+    resetForm();
+    resetEmployeeRoleSelect();
+    resetEmployeeRoleFindSelect();
+    $('#employee-id-find').val('');
+    $('#employee-role-id-find').val('');
+}
+
+function resetForm (){
+    document.getElementById('employee-form').reset();
+}
+
+function resetEmployeeRoleSelect(){
+    $('#employee-role').find('option').removeAttr('selected');
+    $('#employee-role').val('');
+}
+
+function resetEmployeeRoleFindSelect(){
+    $('#employee-role-find').find('option').removeAttr('selected');
+    $('#employee-role-find').val('');
+}
+
+function getEmployee(){
+    var employee ={};
+    employee.id = $('.employee-id').val();
+    employee.firstName = $('.employee-firstName').val();
+    employee.lastName = $('.employee-lastName').val();
+    employee.role = { id : $('#employee-role').val() };
+    return employee;
+}
 
 
 
